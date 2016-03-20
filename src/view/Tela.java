@@ -5,14 +5,19 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Tela {
 	
 	private JFrame frame;
 	
 	private JButton btnInserir;
+	private JButton btnInserir_1;
 	private JButton btnVerQuesito;
+	private JButton btnVerQuesito_1;
 	private JButton btnVerTotal;
+	private JButton btnVerTotal_1;
 	private JTextField textField;
 	
 	public Tela(){
@@ -59,17 +64,29 @@ public class Tela {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		btnInserir = new JButton("Inserir");
-		btnInserir.setBounds(207, 198, 110, 23);
-		frame.getContentPane().add(btnInserir);
+		btnInserir_1 = new JButton("Inserir");
+		btnInserir_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnInserir_1.setBounds(207, 198, 110, 23);
+		frame.getContentPane().add(btnInserir_1);
 		
-		btnVerQuesito = new JButton("Ver Quesito");
-		btnVerQuesito.setBounds(207, 265, 110, 23);
-		frame.getContentPane().add(btnVerQuesito);
+		btnVerQuesito_1 = new JButton("Ver Quesito");
+		btnVerQuesito_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVerQuesito_1.setBounds(207, 265, 110, 23);
+		frame.getContentPane().add(btnVerQuesito_1);
 		
-		btnVerTotal = new JButton("Ver total");
-		btnVerTotal.setBounds(342, 265, 110, 23);
-		frame.getContentPane().add(btnVerTotal);
+		btnVerTotal_1 = new JButton("Ver total");
+		btnVerTotal_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnVerTotal_1.setBounds(342, 265, 110, 23);
+		frame.getContentPane().add(btnVerTotal_1);
 	}
 
 	public static void main(String[] args) {
