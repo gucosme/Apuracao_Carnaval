@@ -8,7 +8,7 @@ public class GenericDao {
 
 		private static Connection con;
 
-		public Connection getConnection() {
+		public static Connection getConnection() {
 
 			try {
 				Class.forName("net.sourceforge.jtds.jdbc.Driver");

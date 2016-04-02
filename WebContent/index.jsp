@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="controller.DBUtil"%>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<%
+		DBUtil.setLists(true);
+	%>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	
@@ -22,13 +26,6 @@
 	</style>
 </head>
 <body>
-
-	<%String a = (String) request.getAttribute("a"),
-		teste = (String) request.getAttribute("teste");
-	
-		
-	
-		String b = "juri"; %>
 	<div class="navbar navbar-default">
 		<a class="navbar-brand" href="#">Apuração das Escolas de Samba</a>
 	</div>
@@ -37,7 +34,7 @@
 	<div class="conteiner">
 		<div class="panel panel-default">
 		  <div class="panel-heading">
-		    <h2 class="panel-title">Notas</h2>
+		    <h2 class="panel-title">Notas</h2> 
 		  </div>
 		  <form action="./HomeCtrl" method="post">
 		  	<div class="panel-body">
@@ -46,13 +43,15 @@
 				    <label>Escola</label>
 					<select class="form-control" name="escola" required="required">
 
-				      	<!-- JSP CODE HERE-->
-
-						<option value="" disabled selected>Selecione uma escola</option>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
+						<option value="" disabled>Selecione uma escola</option>
+						<%
+							for(String escola: DBUtil.escolas){
+						%>
+						<option><%=escola %></option>
+						<%
+							}
+						%>
+						
 					</select>
 				</div>
     		
@@ -60,13 +59,15 @@
 				    <label>Jurado</label>
 					<select class="form-control" name="jurado" required="required">
 
-				      	<!-- JSP CODE HERE-->
-
-						<option value="" disabled selected>Select your option</option>
-						
-						<option><%=a %></option>
-						<option><%=b %></option>
-						<option><%=teste %></option>
+						<option value="" disabled>Selecione um jurado</option>
+						<%
+							for(String jurado: DBUtil.jurados){
+								
+						%>
+						<option><%=jurado %></option>
+						<%
+							}
+						%>
 					</select>
 				</div>
     		
@@ -76,11 +77,14 @@
 
 				      	<!-- JSP CODE HERE-->
 
-						<option value="" disabled selected>Select your option</option>
-						<option>1</option>
-						<option>2</option>
-						<option>3</option>
-						<option>4</option>
+						<option value="" disabled>Select your option</option>
+						<%
+							for(String quesito: DBUtil.quesitos){
+						%>
+						<option><%=quesito %></option>
+						<%
+							}
+						%>
 					</select>
 				</div>
 		 	</div>
@@ -93,7 +97,7 @@
 						    <div class="input-group">
 						      <input type="decimal" name="nota" class="form-control" placeholder="10.0" required="required">
 						      <span class="input-group-btn">
-						        <button class="btn btn-primary" type="submit">Inserir</button>
+						        <button class="btn btn-primary" type="submit" name="inserir">Inserir</button>
 						      </span>
 						    </div>
 						  </div>
@@ -104,8 +108,8 @@
 		  </form>
 		</div>
 		
-		<button class="btn btn-primary">Ver quesitos</button>
-		<button class="btn btn-primary">Ver Total</button>
+		<button class="btn btn-primary" name="ver_quesitos">Ver quesitos</button>
+		<button class="btn btn-primary" name="ver_total">Ver Total</button>
 	</div>
 	
 	<script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap.min.js"/>
