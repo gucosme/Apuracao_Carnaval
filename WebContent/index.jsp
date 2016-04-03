@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="controller.DBUtil"%>
+    pageEncoding="UTF-8" import="controller.Util"%>
 <%@ page import="java.util.List" %>
+<%@ page import="java.net.URLEncoder" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<%
-		DBUtil.setLists(true);
+		Util.setLists();
 	%>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	
 	<title>Apuração</title>
 	
-	<link rel="icon" href="<%=request.getContextPath()%>/imagens/favicon.png">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap.min.css"/>
+	<link rel="icon" href="imagens/favicon.png">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
 	
 	<style>
 		.conteiner{
@@ -36,7 +37,7 @@
 		  <div class="panel-heading">
 		    <h2 class="panel-title">Notas</h2> 
 		  </div>
-		  <form action="./HomeCtrl" method="post">
+		  <form action="./homectrl" method="post">
 		  	<div class="panel-body">
 	    	
     			<div class="form-group">
@@ -45,7 +46,7 @@
 
 						<option value="" disabled>Selecione uma escola</option>
 						<%
-							for(String escola: DBUtil.escolas){
+							for(String escola: Util.escolas){
 						%>
 						<option><%=escola %></option>
 						<%
@@ -61,7 +62,7 @@
 
 						<option value="" disabled>Selecione um jurado</option>
 						<%
-							for(String jurado: DBUtil.jurados){
+							for(String jurado: Util.jurados){
 								
 						%>
 						<option><%=jurado %></option>
@@ -79,9 +80,9 @@
 
 						<option value="" disabled>Select your option</option>
 						<%
-							for(String quesito: DBUtil.quesitos){
+							for(String quesito: Util.quesitos){
 						%>
-						<option><%=quesito %></option>
+						<option><%=quesito%></option>
 						<%
 							}
 						%>
@@ -95,7 +96,7 @@
 			  			<div class="row">
 			  			<div class="col-lg-6">
 						    <div class="input-group">
-						      <input type="decimal" name="nota" class="form-control" placeholder="10.0" required="required">
+						      <input type="decimal" name="nota" class="form-control" placeholder="10.0" required="required" autofocus="autofocus">
 						      <span class="input-group-btn">
 						        <button class="btn btn-primary" type="submit" name="inserir">Inserir</button>
 						      </span>
@@ -107,11 +108,16 @@
 			  </div>
 		  </form>
 		</div>
-		
-		<button class="btn btn-primary" name="ver_quesitos">Ver quesitos</button>
-		<button class="btn btn-primary" name="ver_total">Ver Total</button>
+		<%
+			
+			String quesito = Util.quesitos.get(0);
+			session.setAttribute("quesito", quesito);
+			quesito = URLEncoder.encode(quesito, "UTF-8");
+		%>
+		<a href="quesitos.jsp?quesito=<%=quesito %>" class="btn btn-primary" name="ver_quesitos">Ver quesitos</a>
+		<a href="total.jsp" class="btn btn-primary" name="ver_total">Ver Total</a>
 	</div>
 	
-	<script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap.min.js"/>
+	<script src="bootstrap/js/bootstrap.min.js"/>
 </body>
 </html>

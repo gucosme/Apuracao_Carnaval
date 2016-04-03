@@ -9,12 +9,14 @@ import java.util.List;
 
 import mysql.MySQLConnector;
 
-public class DBUtil {
+public class Util {
 	
 	private static Connection con;
 	public static List<String> jurados;
 	public static List<String> escolas;
 	public static List<String> quesitos;
+	private static boolean flg = false;
+	private static int cEscola = 0, cJurado = 0, cQuesito = 0, cNJurado = 0;
 	
 	private static List<String> getJurados() throws SQLException{
 		jurados = new ArrayList<>();
@@ -64,25 +66,66 @@ public class DBUtil {
 		return quesitos;
 	}
 	
-	public static void setLists(boolean flg) throws SQLException{
+	public static void setLists() throws SQLException{
 		if (!flg) {
 			jurados = getJurados();
 			escolas = getEscolas();
 			quesitos = getQuesitos();
+			flg = true;
 		}
-		
-//		System.out.println("jurados.size() " + jurados.size());
-//		System.out.println("escolas.size() " + escolas.size());
-//		System.out.println("quesitos.size() " + quesitos.size());
 	}
 	
-	public static void removeStuff(String e, String j, String q){
-		int iEscola = escolas.indexOf(e);
-		int iJurado = jurados.indexOf(j);
-		int iQuesito = quesitos.indexOf(q);
-		
+	public static void rfshEscola(String escola){
+		int iEscola = escolas.indexOf(escola);
 		escolas.remove(iEscola);
+		escolas.add(escola);
+	}
+	
+	public static void rfshJurado(String jurado){
+		int iJurado = jurados.indexOf(jurado);
 		jurados.remove(iJurado);
+		jurados.add(jurado);
+	}
+	
+	public static void rfshQuesito(String quesito){
+		int iQuesito = quesitos.indexOf(quesito);
+		System.out.println(iQuesito);
 		quesitos.remove(iQuesito);
+		quesitos.add(quesito);
+	}
+	
+	public static void rfshCtrl(String e, String q, String j){
+		System.out.println(cEscola+1 + "° escola : " + (cJurado+1) + "° jurado : " + (cQuesito+1) + "° quesito");
+		System.out.println(escolas);
+		if (cEscola < escolas.size()-1) {
+			rfshEscola(e);
+			cEscola++;
+		} else {
+			rfshEscola(e);
+			cEscola = 0;
+			
+			if (cJurado < jurados.size()-1 && cNJurado < 4) {
+				rfshJurado(j);
+				cJurado++;
+				cNJurado++;
+			} else {
+				rfshJurado(j);
+				rfshQuesito(q);
+				cNJurado = 0;
+				cQuesito++;
+			}
+		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+

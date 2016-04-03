@@ -1,5 +1,7 @@
 package persistencia;
 
-public interface iEscolaDAO {
+import java.util.List;
 
+public interface iEscolaDAO {
+	public List<String> getEscolas();
 }

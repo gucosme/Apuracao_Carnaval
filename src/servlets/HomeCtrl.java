@@ -11,21 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import controller.DBUtil;
+import controller.Util;
 
-@WebServlet(urlPatterns={"/HomeCtrl"})
+@WebServlet(urlPatterns={"/homectrl"})
 public class HomeCtrl extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
-	
-	public HomeCtrl() {
-		super();
-	}
-	
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -39,7 +30,8 @@ public class HomeCtrl extends HttpServlet{
 		//inserir no banco
 		
 		//tirando referencias das listas já cadastradas
-		DBUtil.removeStuff(escola, jurado, quesito);
+		//System.out.println(quesito);
+		Util.rfshCtrl(escola, quesito, jurado);
 		
 		resp.sendRedirect("./");
 	}
