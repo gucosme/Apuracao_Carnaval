@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<%@page import="entity.Notas"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLDecoder"%>
+<%@ page import="persistencia.NotasDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.Notas" %>
+<%@ page import="controller.*" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -23,11 +28,8 @@
 	</style>
 </head>
 <body>
-	<%
-		session.setAttribute("A", 345678);
-	%>
 	<div class="navbar navbar-default">
-		<a class="navbar-brand" href="${request.getContextPath()}/apuracao">Apuração das Escolas de Samba</a>
+		<a class="navbar-brand" href="/apuracao">Apuração das Escolas de Samba</a>
 	</div>
 	
 	<div class="conteiner">
@@ -36,7 +38,7 @@
 		  	<%
 		  		String quesito = URLDecoder.decode(request.getParameter("quesito"));
 		  	%>
-		    <h2 class="panel-title"><%=quesito %></h2> 
+		    <h2 class="panel-title"><strong>Quesito:</strong> <%=quesito %></h2> 
 		  </div>
 		  <div class="panel-body">
 			  <div class="table-responsive">
@@ -44,37 +46,42 @@
 				<thead>
 					<tr>
 						<th>Escola</th>
-						<th>1°</th>
-						<th>2°</th>
-						<th>3°</th>
-						<th>4°</th>
-						<th>5°</th>
-						<th>Maior</th>
-						<th>Menor</th>
-						<th>total</th>
+						<th>1° Nota</th>
+						<th>2° Nota</th>
+						<th>3° Nota</th>
+						<th>4° Nota</th>
+						<th>5° Nota</th>
+						<th>Maior Nota</th>
+						<th>Menor Nota</th>
+						<th>Total de Pts.</th>
 					</tr>
 				</thead>
 				<tbody>
-					<% %>
+					<%
+						List<Notas> listaNotas = new NotasDAO().selectNotas(quesito);
+						for(Notas n: listaNotas){
+					%>
 					<tr>
-						<th>lala</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
+						<th><%=n.getIdEscola() %></th>
+						<th><%=n.getNota1() %></th>
+						<th><%=n.getNota2() %></th>
+						<th><%=n.getNota3() %></th>
+						<th><%=n.getNota4() %></th>
+						<th><%=n.getNota5() %></th>
+						<th><%=n.getMaior() %></th>
+						<th><%=n.getMenor() %></th>
+						<th><%=n.getTotaPontos() %></th>
 					</tr>
-					<% %>
+					<%
+						}
+					%>
 				</tbody>
 			</table>
 			  </div>
 		  </div>
 		</div>
-		<a href="${request.getContextPath()}/apuracao/quesitos.jsp" class="btn btn-primary disabled" >Ver quesitos</a>
-		<a href="${request.getContextPath()}/apuracao/total.jsp" class="btn btn-primary">Ver Total</a>
+		<a href="/apuracao/quesitos.jsp" class="btn btn-primary disabled">Ver quesitos</a>
+		<a href="/apuracao/total.jsp" class="btn btn-primary">Ver Total</a>
 	</div>
 	
 </body>

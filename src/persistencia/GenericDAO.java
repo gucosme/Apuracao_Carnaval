@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class GenericDao {
+public class GenericDAO {
 
 		private static Connection con;
 
@@ -12,7 +12,7 @@ public class GenericDao {
 
 			try {
 				Class.forName("net.sourceforge.jtds.jdbc.Driver");
-				con = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1:1433;DatabaseName=carnaval;namedPipe=true","USER", "SENHA_DO_FIO_DA_PUTA");
+				con = DriverManager.getConnection("jdbc:jtds:sqlserver://127.0.0.1:1433;DatabaseName=carnaval;namedPipe=true","teste", "123456");
 				System.out.println("Conectado");
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

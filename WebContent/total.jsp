@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<%@page import="persistencia.EscolaDAO"%>
+<%@page import="entity.Escola"%>
+<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.net.URLEncoder"%>
+<%@ page import="persistencia.EscolaDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.Escola" %>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -24,7 +30,7 @@
 </head>
 <body>
 	<div class="navbar navbar-default">
-		<a class="navbar-brand" href="${request.getContextPath()}/apuracao">Apuração das Escolas de Samba</a>
+		<a class="navbar-brand" href="/apuracao">Apuração das Escolas de Samba</a>
 	</div>
 	
 	<div class="conteiner">
@@ -38,34 +44,21 @@
 				<thead>
 					<tr>
 						<th>Escola</th>
-						<th>quesito 1</th>
-						<th>quesito 2</th>
-						<th>quesito 3</th>
-						<th>total</th>
+						<th>Total de Pts.</th>
 					</tr>
 				</thead>
 				<tbody>
+					<% 
+						List<Escola> escolas = new EscolaDAO().selectEscola();
+						for(Escola e: escolas){
+					%>
 					<tr>
-						<th>lala</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
+						<th><%=e.getNome() %></th>
+						<th><%=e.getTotalPontos() %></th>
 					</tr>
-					<tr>
-						<th>lala</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-					</tr>
-					<tr>
-						<th>lala</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-						<th>10</th>
-					</tr>
+					<%
+						}
+					%>
 				</tbody>
 			</table>
 			  </div>

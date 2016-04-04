@@ -1,76 +1,36 @@
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import mysql.MySQLConnector;
+import persistencia.EscolaDAO;
+import persistencia.JuradoDAO;
+import persistencia.QuesitoDAO;
 
 public class Util {
 	
-	private static Connection con;
 	public static List<String> jurados;
 	public static List<String> escolas;
 	public static List<String> quesitos;
 	private static boolean flg = false;
-	private static int cEscola = 0, cJurado = 0, cQuesito = 0, cNJurado = 0;
+	private static int cEscola = 0, cJurado = 0, cQuesito = 0;
+	private static int ctrEscola = 1, ctrQuesito = 1, ctrJurado = 1;
+	public static int cNJurado = 1;
 	
-	private static List<String> getJurados() throws SQLException{
-		jurados = new ArrayList<>();
-		con = MySQLConnector.getConnection();
-		String sql = "SELECT * FROM jurado";
-		
-		PreparedStatement ps = con.prepareStatement(sql);
-		
-		ResultSet rs = ps.executeQuery();
-		
-		while ( rs.next() ){
-			jurados.add(rs.getString(2));
-		}
-		
-		return jurados;
-	}
-	
-	private static List<String> getEscolas() throws SQLException{
-		escolas = new ArrayList<>();
-		con = MySQLConnector.getConnection();
-		String sql = "SELECT * FROM escola";
-		
-		PreparedStatement ps = con.prepareStatement(sql);
-		
-		ResultSet rs = ps.executeQuery();
-		
-		while ( rs.next() ){
-			escolas.add(rs.getString(2));
-		}
-		
-		return escolas;
-	}
-	
-	private static List<String> getQuesitos() throws SQLException{
-		quesitos = new ArrayList<>();
-		con = MySQLConnector.getConnection();
-		String sql = "SELECT * FROM quesito";
-		
-		PreparedStatement ps = con.prepareStatement(sql);
-		
-		ResultSet rs = ps.executeQuery();
-		
-		while ( rs.next() ){
-			quesitos.add(rs.getString(2));
-		}
-		
-		return quesitos;
-	}
+	private static JuradoDAO jdao;
+	private static EscolaDAO edao;
+	private static QuesitoDAO qdao;
 	
 	public static void setLists() throws SQLException{
+		
+		jdao = new JuradoDAO();
+		edao = new EscolaDAO();
+		qdao = new QuesitoDAO();
+		
 		if (!flg) {
-			jurados = getJurados();
-			escolas = getEscolas();
-			quesitos = getQuesitos();
+			jurados = jdao.getJurados();
+			escolas = edao.getEscolas();
+			quesitos = qdao.getQuesitos();
 			flg = true;
 		}
 	}
@@ -89,32 +49,49 @@ public class Util {
 	
 	public static void rfshQuesito(String quesito){
 		int iQuesito = quesitos.indexOf(quesito);
-		System.out.println(iQuesito);
 		quesitos.remove(iQuesito);
 		quesitos.add(quesito);
 	}
 	
+	public static void rfshQuesitoPos(String quesito, int pos){
+		int iQuesito = quesitos.indexOf(quesito);
+		quesitos.remove(iQuesito);
+		quesitos.add(pos, quesito);
+	}
+	
 	public static void rfshCtrl(String e, String q, String j){
-		System.out.println(cEscola+1 + "° escola : " + (cJurado+1) + "° jurado : " + (cQuesito+1) + "° quesito");
-		System.out.println(escolas);
 		if (cEscola < escolas.size()-1) {
 			rfshEscola(e);
 			cEscola++;
+			ctrEscola++;
 		} else {
 			rfshEscola(e);
 			cEscola = 0;
-			
-			if (cJurado < jurados.size()-1 && cNJurado < 4) {
+			ctrEscola = 1;
+			if (cJurado < jurados.size()-1 && cNJurado < 5) {
 				rfshJurado(j);
 				cJurado++;
 				cNJurado++;
 			} else {
 				rfshJurado(j);
 				rfshQuesito(q);
-				cNJurado = 0;
+				cNJurado = 1;
 				cQuesito++;
+				ctrQuesito++;
 			}
 		}
+	}
+	
+	public static int getCtrEscola() {
+		return ctrEscola;
+	}
+
+	public static int getCtrQuesito() {
+		return ctrQuesito;
+	}
+	
+	public static void printa(String x){
+		System.out.println(x);
 	}
 }
 

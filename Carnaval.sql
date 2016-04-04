@@ -170,7 +170,7 @@ select * from jurado
 
 select * from quesito
 
-select * from notas
+select * from notas order by id_escola
 
 select * from quesito_jurado
 
@@ -245,7 +245,7 @@ declare @retorna decimal(3,1)
 declare @sub decimal(3,1)
 declare @total decimal(5,1) set @total = (Select nota_total from notas where id_escola=@escola and id_quesito=@quesito)
 set @sub = (Select SUM((nota_maior + nota_menor)) from notas where id_escola = @escola and id_quesito=@quesito)
-
+	
 	if (@sub is null) begin
 		set @retorna = @total + @nota
 	end	
@@ -268,7 +268,7 @@ select * from escola order by  total_pts desc
 
 /* CRIAÇÃO DE FUNCTION */
 
-create function fn_retornaDescartados(@quesito int, @escola int) returns decimal(3,1) as begin
+create function fn_retornaDescartados(@escola int, @quesito int) returns decimal(3,1) as begin
 declare @descarta decimal(3,1)
 set @descarta = (Select SUM((nota_maior + nota_menor)) from notas where id_escola = @escola and id_quesito=@quesito)
 	
@@ -292,10 +292,29 @@ drop function fn_retornaDescartados
 
 /* EXECUÇÃO DAS PROCEDURES */
 
-exec sp_insereNota 1,1,1,8.5
-exec sp_insereNota 1,1,2,9.0
-exec sp_insereNota 1,1,3,7.0
-exec sp_insereNota 1,1,4,10.0
-exec sp_insereNota 1,1,5,6.9
+exec sp_insereNota 14,8,1,8.5
+exec sp_insereNota 14,8,2,9.0
+exec sp_insereNota 14,8,3,7.0
+exec sp_insereNota 14,8,4,10.0
+exec sp_insereNota 14,8,5,6.9
 
 exec sp_somaPontosEscola 
+
+exec sp_insereNota 2,1,1,8.5
+exec sp_insereNota 2,1,2,9.0
+
+
+select e.nome as escola, q.nome as quesito from escola e
+inner join notas n
+on e.id_escola = n.id_escola
+inner join quesito q
+on n.id_quesito = q.id_quesito
+order by e.nome
+
+
+SELECT e.nome, q.nome, nota1, nota2, nota3, nota4, nota5, nota_total, nota_maior, nota_menor FROM notas n
+inner join escola e
+on e.id_escola = n.id_escola
+inner join quesito q
+on q.id_quesito = n.id_quesito
+where q.nome = 'Fantasia'

@@ -2,19 +2,40 @@ package entity;
 
 public class Notas {
 
-	private int idEscola;
+	private String idEscola;
+	private String quesito;
 	private double nota1;
 	private double nota2;
 	private double nota3;
 	private double nota4;
 	private double nota5;
 	private double totaPontos;
+	private double maior;
+	private double menor;
 	
-	public int getIdEscola() {
+	public double getMaior() {
+		return maior;
+	}
+	public void setMaior(double maior) {
+		this.maior = maior;
+	}
+	public double getMenor() {
+		return menor;
+	}
+	public void setMenor(double menor) {
+		this.menor = menor;
+	}
+	public String getIdEscola() {
 		return idEscola;
 	}
-	public void setIdEscola(int idEscola) {
+	public void setIdEscola(String idEscola) {
 		this.idEscola = idEscola;
+	}
+	public String getQuesito() {
+		return quesito;
+	}
+	public void setQuesito(String quesito) {
+		this.quesito = quesito;
 	}
 	public double getNota1() {
 		return nota1;
@@ -52,8 +73,4 @@ public class Notas {
 	public void setTotaPontos(double totaPontos) {
 		this.totaPontos = totaPontos;
 	}
-	
-	
-	
-	
 }
